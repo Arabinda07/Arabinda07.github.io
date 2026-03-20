@@ -531,7 +531,7 @@
 
       <!-- ── 05 CONTACT ── -->
       <section class="section contact-section fade-up" id="contact">
-        <h2 class="section-heading"><span class="section-num">05.</span> Get In Touch</h2>
+        <h2 class="section-heading"><span class="section-num">05.</span> Let's build something meaningful</h2>
         <p class="contact-body">I'm exploring opportunities at the intersection of data, systems, and execution. If that's where you're building — let's talk.</p>
 
         <!-- EmailJS contact form -->
@@ -619,7 +619,7 @@
     (function () {
       // ── Page loader — fade out after hex animation completes ──
       var loader = document.getElementById('page-loader');
-      var LOADER_DURATION = 2200;
+      var LOADER_DURATION = 1600;
 
       function revealPage() {
         if (loader) {
@@ -631,31 +631,41 @@
         document.body.classList.remove('is-loading');
 
         requestAnimationFrame(function () {
+          // Left panel: reveal immediately
           document.querySelectorAll('.left-panel .fade-up').forEach(function (el) {
             el.classList.add('is-visible');
           });
-        });
 
-        var fadeEls = document.querySelectorAll('.right-panel .fade-up');
-        if ('IntersectionObserver' in window) {
-          var fadeObserver = new IntersectionObserver(function (entries) {
-            entries.forEach(function (e) {
-              if (e.isIntersecting) {
-                e.target.classList.add('is-visible');
-                fadeObserver.unobserve(e.target);
+          var fadeEls = document.querySelectorAll('.right-panel .fade-up');
+          if ('IntersectionObserver' in window) {
+            var fadeObserver = new IntersectionObserver(function (entries) {
+              entries.forEach(function (e) {
+                if (e.isIntersecting) {
+                  e.target.classList.add('is-visible');
+                  fadeObserver.unobserve(e.target);
+                }
+              });
+            }, { threshold: 0.07, rootMargin: '0px 0px -40px 0px' });
+
+            fadeEls.forEach(function (el) {
+              // Immediately reveal elements already in the viewport — avoids async flash
+              var rect = el.getBoundingClientRect();
+              if (rect.top < window.innerHeight && rect.bottom > 0) {
+                el.classList.add('is-visible');
+              } else {
+                fadeObserver.observe(el);
               }
             });
-          }, { threshold: 0.07, rootMargin: '0px 0px -40px 0px' });
-          fadeEls.forEach(function (el) { fadeObserver.observe(el); });
-        } else {
-          fadeEls.forEach(function (el) { el.classList.add('is-visible'); });
-        }
+          } else {
+            fadeEls.forEach(function (el) { el.classList.add('is-visible'); });
+          }
 
-        document.querySelectorAll('.project-card.fade-up').forEach(function (card, i) {
-          card.style.setProperty('--delay', (i % 3) * 80 + 'ms');
-        });
-        document.querySelectorAll('.cert-item.fade-up').forEach(function (item, i) {
-          item.style.setProperty('--delay', i * 50 + 'ms');
+          document.querySelectorAll('.project-card.fade-up').forEach(function (card, i) {
+            card.style.setProperty('--delay', (i % 3) * 80 + 'ms');
+          });
+          document.querySelectorAll('.cert-item.fade-up').forEach(function (item, i) {
+            item.style.setProperty('--delay', i * 50 + 'ms');
+          });
         });
       }
 
