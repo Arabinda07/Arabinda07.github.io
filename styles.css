@@ -305,7 +305,44 @@ strong { color: var(--slate-light); font-weight: 500; }
 
 /* ── ABOUT ── */
 .about-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
   margin-bottom: 0;
+}
+.about-header .section-heading {
+  margin-bottom: 0;
+  flex: 1;
+}
+
+/* Mobile photo: shown in heading row on mobile, hidden on desktop */
+.about-photo-mobile {
+  display: none;
+  flex-shrink: 0;
+}
+
+/* Circle variant for mobile header */
+.photo-wrapper--circle {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+}
+.photo-wrapper--circle::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--teal);
+  border-radius: 50%;
+  transform: translate(6px, 6px);
+  z-index: -1;
+  transition: transform 0.3s var(--ease);
+}
+.photo-wrapper--circle:hover::after {
+  transform: translate(4px, 4px);
 }
 
 .about-grid {
@@ -313,6 +350,10 @@ strong { color: var(--slate-light); font-weight: 500; }
   grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
   gap: 4rem;
   align-items: flex-start;
+  margin-top: 2.5rem;
+}
+.about-text {
+  order: 1;
 }
 .about-text p {
   color: var(--slate);
@@ -340,16 +381,13 @@ strong { color: var(--slate-light); font-weight: 500; }
   color: var(--teal);
 }
 
-/* Desktop: photo in right column — DOM order reversed, visual order corrected */
+/* Desktop photo: right column of grid, hidden on mobile */
 .about-photo {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding-top: 0.25rem;
-  order: 2; /* appear after text on desktop */
-}
-.about-text {
-  order: 1;
+  order: 2;
 }
 .photo-wrapper {
   position: relative;
@@ -1107,47 +1145,42 @@ strong { color: var(--slate-light); font-weight: 500; }
     margin-bottom: 2.5rem;
   }
 
-  /* Section adjustments */
+  /* ── Consistent section spacing — every section identical ── */
   .section { padding: 4rem 0; min-height: auto; }
-  /* Hero is much shorter on mobile — just the intro */
-  .hero-section { padding-top: 2rem; padding-bottom: 1rem; min-height: auto; }
-  .section-heading { font-size: 1.4rem; }
+  .hero-section { padding-top: 2.5rem; padding-bottom: 2.5rem; min-height: auto; }
+  .section-heading { font-size: 1.4rem; margin-bottom: 1.75rem; }
   .section-heading::after { width: 80px; }
 
-  /* About: collapse to single column, photo floats top-right */
-  .about-grid {
-    display: block; /* block instead of grid so float works */
-  }
-  .about-text { order: unset; }
-  .about-photo {
-    order: unset;
-    float: right;
-    display: block;
-    padding-top: 0;
-    margin: 0 0 1rem 1.25rem;
-    justify-content: unset;
-    align-items: unset;
-  }
-  .about-photo .photo-wrapper {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-  }
-  .about-photo .photo-wrapper::after {
-    border-radius: 50%;
-    transform: translate(6px, 6px);
-  }
-  .about-photo .photo-wrapper:hover::after {
-    transform: translate(4px, 4px);
-  }
-  /* Clearfix */
-  .about-grid::after {
-    content: '';
-    display: table;
-    clear: both;
+  /* Resume button — compact, not full-width */
+  .hero-section .btn-primary {
+    align-self: flex-start;
+    max-width: 260px;
   }
 
-  /* Experience: more breathing room between tabs and panel content */
+  /* ── About: mobile layout ── */
+  /* Show mobile photo in heading row */
+  .about-photo-mobile { display: flex; }
+  /* Hide desktop photo column entirely */
+  .about-photo { display: none; }
+  /* Heading row: heading left, photo right */
+  .about-header {
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  .about-header .section-heading {
+    margin-bottom: 0;
+    /* Remove the decorative line in the heading row — too cramped */
+    white-space: normal;
+  }
+  .about-header .section-heading::after { display: none; }
+  /* Grid becomes single full-width column for text */
+  .about-grid {
+    display: block;
+    margin-top: 0;
+  }
+  .about-text { order: unset; }
+
+  /* ── Experience: breathing room between tabs and content ── */
   .exp-tabs { flex-direction: column; gap: 0; }
   .tab-panels { padding-top: 1.25rem; min-height: unset; }
   .tab-list {
