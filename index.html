@@ -16,6 +16,14 @@
 <body>
   <a href="#content" class="skip-link">Skip to content</a>
 
+  <!-- Initial load (v4-style gate; respects reduced motion) -->
+  <div id="page-loader" class="page-loader" aria-busy="true" aria-label="Loading portfolio">
+    <div class="page-loader__inner">
+      <div class="page-loader__mark" aria-hidden="true">AS</div>
+      <div class="page-loader__track"><div class="page-loader__fill"></div></div>
+    </div>
+  </div>
+
   <!-- ── SCROLL PROGRESS BAR ── -->
   <div id="scroll-progress" class="scroll-progress" aria-hidden="true"></div>
 
@@ -26,14 +34,16 @@
       <span></span><span></span><span></span>
     </button>
     <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile">
-      <ol>
-        <li><a href="#about"><span>01.</span> My Journey</a></li>
-        <li><a href="#experience"><span>02.</span> Experience</a></li>
-        <li><a href="#work"><span>03.</span> Work</a></li>
-        <li><a href="#skills"><span>04.</span> Capabilities</a></li>
-        <li><a href="#contact"><span>05.</span> Contact</a></li>
-      </ol>
-      <a href="assets/resume.pdf" target="_blank" rel="noopener noreferrer" class="btn-resume">Resume</a>
+      <div class="mobile-nav__inner">
+        <ol>
+          <li><a href="#about"><span>01.</span> My Journey</a></li>
+          <li><a href="#experience"><span>02.</span> Experience</a></li>
+          <li><a href="#work"><span>03.</span> Work</a></li>
+          <li><a href="#skills"><span>04.</span> Capabilities</a></li>
+          <li><a href="#contact"><span>05.</span> Contact</a></li>
+        </ol>
+        <a href="assets/resume.pdf" target="_blank" rel="noopener noreferrer" class="btn-resume">Resume</a>
+      </div>
     </nav>
     <div class="mobile-nav-overlay" id="mobile-nav-overlay" aria-hidden="true"></div>
   </header>
@@ -356,7 +366,6 @@
             <p class="project-tag">Data Tools · LKS · 2026</p>
             <p class="project-desc">Building data tools that translate legal and operational workflows into usable systems.</p>
             <ul class="project-tech"><li>Python</li><li>SQL</li><li>Dashboard Design</li></ul>
-            <p class="project-cta">View details →</p>
           </div>
 
           <div class="project-card">
@@ -371,7 +380,6 @@
             <p class="project-tag">Governance · Data Privacy · 2026</p>
             <p class="project-desc">Structuring India's data protection law into actionable governance systems for enterprise use.</p>
             <ul class="project-tech"><li>DPDP Act, 2023</li><li>Data Governance</li><li>Compliance Mapping</li></ul>
-            <p class="project-cta">View details →</p>
           </div>
 
           <div class="project-card">
@@ -386,7 +394,6 @@
             <p class="project-tag">STEM · AI · CBSE Sahodaya 2024</p>
             <p class="project-desc">Designing interdisciplinary STEM + AI programs for school-level deployment.</p>
             <ul class="project-tech"><li>Classes 6–10</li><li>Robotics</li><li>AI Modules</li></ul>
-            <p class="project-cta">View details →</p>
           </div>
 
         </div>
@@ -570,6 +577,42 @@
   </div><!-- /layout -->
 
   <script>
+    (function () {
+      var loader = document.getElementById('page-loader');
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.body.classList.add('is-loading');
+      function hideLoader() {
+        if (!loader) {
+          document.body.classList.remove('is-loading');
+          return;
+        }
+        loader.classList.add('page-loader--done');
+        loader.setAttribute('aria-busy', 'false');
+        setTimeout(function () {
+          loader.setAttribute('hidden', '');
+          document.body.classList.remove('is-loading');
+        }, 550);
+      }
+      if (reduced) {
+        if (loader) {
+          loader.setAttribute('hidden', '');
+          loader.setAttribute('aria-busy', 'false');
+        }
+        document.body.classList.remove('is-loading');
+      } else if (!loader) {
+        document.body.classList.remove('is-loading');
+      } else {
+        var t0 = Date.now();
+        var minMs = 720;
+        function finish() {
+          var wait = Math.max(0, minMs - (Date.now() - t0));
+          setTimeout(hideLoader, wait);
+        }
+        if (document.readyState === 'complete') finish();
+        else window.addEventListener('load', finish);
+      }
+    })();
+
     function moveTabIndicator(btn) {
       const indicator = document.getElementById('tab-indicator');
       if (!indicator || !btn) return;
@@ -633,7 +676,7 @@
 
     const sections = document.querySelectorAll('section[id]');
     const navItems = document.querySelectorAll('.nav-item');
-    const navOffset = () => (window.matchMedia('(max-width: 768px)').matches ? 88 : 120);
+    const navOffset = () => (window.matchMedia('(max-width: 768px)').matches ? 100 : 120);
 
     function updateActiveNav() {
       let current = '';
