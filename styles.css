@@ -322,34 +322,29 @@ strong { color: var(--slate-light); font-weight: 500; }
   flex-shrink: 0;
 }
 
-/* Circle variant for mobile header */
+/* Circle variant for mobile header — clean avatar style */
 .photo-wrapper--circle {
-  width: 130px;
-  height: 130px;
+  width: 82px;
+  height: 82px;
   border-radius: 50%;
-  overflow: hidden;
+  overflow: hidden;         /* clips image AND border to circle */
   flex-shrink: 0;
   position: relative;
-  border: 2px solid var(--teal);
-  /* Offset shadow instead of ::after pseudo-element — more reliable on mobile */
-  box-shadow: 5px 5px 0 0 var(--teal);
-  transition: box-shadow 0.3s var(--ease);
+  border: 2px solid var(--teal);  /* sits inside the circle clip — no rectangular overflow */
+  transition: border-color 0.3s ease, opacity 0.3s ease;
 }
 .photo-wrapper--circle:hover {
-  box-shadow: 3px 3px 0 0 var(--teal);
+  opacity: 0.85;
 }
 .photo-wrapper--circle .photo-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center 15%;  /* bring face slightly lower into frame */
   display: block;
-  border-radius: 50%;
-  filter: grayscale(40%) contrast(1.05);
+  border-radius: 0;             /* parent clips it — no need here */
+  filter: none;                 /* full colour on mobile — small image needs clarity */
   transition: filter 0.3s ease;
-}
-.photo-wrapper--circle:hover .photo-img {
-  filter: none;
 }
 
 .about-grid {
