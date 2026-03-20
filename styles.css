@@ -32,6 +32,21 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
+
+/* ── Cursor spotlight (change 7) ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    600px circle at var(--cursor-x, -500px) var(--cursor-y, -500px),
+    rgba(100, 255, 218, 0.045),
+    transparent 80%
+  );
+  transition: background 0.1s ease;
+}
 a { color: var(--teal); text-decoration: none; transition: var(--transition); }
 a:hover { color: var(--teal); }
 ul, ol { list-style: none; padding: 0; }
@@ -171,7 +186,7 @@ strong { color: var(--slate-light); font-weight: 500; }
   width: 2rem;
   height: 1px;
   background: var(--slate-dark);
-  transition: width 0.3s var(--ease), background 0.3s ease;
+  transition: width 0.4s var(--ease), background 0.4s ease;
   flex-shrink: 0;
 }
 .nav-num { color: var(--teal); font-size: 0.7rem; }
@@ -265,8 +280,9 @@ strong { color: var(--slate-light); font-weight: 500; }
 /* ── ABOUT ── */
 .about-grid {
   display: grid;
-  grid-template-columns: 3fr 2fr;
-  gap: 3rem;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 4rem;
+  align-items: center;
 }
 .about-text p {
   color: var(--slate);
@@ -276,8 +292,8 @@ strong { color: var(--slate-light); font-weight: 500; }
 }
 .skills-list {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.4rem 2rem;
+  grid-template-columns: repeat(2, minmax(140px, 200px));
+  gap: 0.4rem 1rem;
   margin-top: 1.25rem;
 }
 .skills-list li {
@@ -293,11 +309,15 @@ strong { color: var(--slate-light); font-weight: 500; }
   left: 0;
   color: var(--teal);
 }
-.about-photo { display: flex; justify-content: center; align-items: flex-start; padding-top: 0.5rem; }
+.about-photo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .photo-wrapper {
   position: relative;
-  width: 280px;
-  height: 280px;
+  width: 300px;
+  height: 300px;
   border-radius: 4px;
   overflow: hidden;
   flex-shrink: 0;
@@ -368,8 +388,58 @@ strong { color: var(--slate-light); font-weight: 500; }
 .tab-btn:hover { color: var(--teal); background: var(--teal-tint); }
 .tab-btn.active { color: var(--teal); border-left-color: var(--teal); background: var(--teal-tint); }
 
-.tab-panel { display: none; }
-.tab-panel.active { display: block; }
+/* ── Change 11: Tab panel fade transition ── */
+.tab-panels {
+  position: relative;
+  flex: 1;
+  min-height: 280px; /* prevent layout jump when switching */
+}
+
+.tab-panel {
+  display: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.tab-panel.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fade-out state */
+.tab-panel--leaving {
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+/* Fade-in starting state (before rAF removes it) */
+.tab-panel--entering {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* ── Change 9: Project link icons ── */
+.project-links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.project-link-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--slate);
+  cursor: default;
+  padding: 4px;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.project-card:hover .project-link-icon {
+  color: var(--slate-light);
+  transform: translateY(-2px);
+}
 
 .exp-role {
   font-size: 1.1rem;
@@ -423,7 +493,110 @@ strong { color: var(--slate-light); font-weight: 500; }
 }
 .resume-link:hover { border-color: var(--teal); gap: 0.7rem; }
 
-/* ── PROJECTS GRID ── */
+/* ── FEATURED PROJECTS — alternating layout ── */
+.featured-projects {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+  margin-bottom: 5rem;
+}
+
+.featured-project {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+  position: relative;
+}
+
+/* Reversed row: number on left, content on right */
+.fp-reverse {
+  direction: rtl; /* flip columns */
+}
+.fp-reverse > * {
+  direction: ltr; /* restore text direction inside */
+}
+
+.fp-overline {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--teal);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.6rem;
+}
+
+.fp-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--slate-light);
+  margin-bottom: 1.25rem;
+  transition: color 0.2s ease;
+}
+.featured-project:hover .fp-title { color: var(--teal); }
+
+.fp-desc-box {
+  background: var(--navy-light);
+  border-radius: 4px;
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 10px 30px rgba(2, 12, 27, 0.5);
+  position: relative;
+  z-index: 2;
+}
+.fp-desc-box p {
+  font-size: 0.92rem;
+  color: var(--slate);
+  line-height: 1.8;
+}
+
+.fp-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.25rem;
+}
+.fp-tech li {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--slate);
+}
+
+/* Large ghost number */
+.fp-number {
+  font-family: var(--font-mono);
+  font-size: clamp(6rem, 12vw, 10rem);
+  font-weight: 700;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--navy-light);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  user-select: none;
+  text-align: center;
+  transition: -webkit-text-stroke-color 0.3s ease;
+}
+.featured-project:hover .fp-number {
+  -webkit-text-stroke-color: var(--slate-dark);
+}
+
+.other-projects-heading {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--slate);
+  letter-spacing: 0.1em;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.other-projects-heading::before,
+.other-projects-heading::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--navy-light);
+}
+
+/* ── PROJECTS GRID (small cards) ── */
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -649,6 +822,9 @@ strong { color: var(--slate-light); font-weight: 500; }
   .lp-name { font-size: 2rem; }
   .lp-title { font-size: 1.2rem; }
   .projects-grid { grid-template-columns: repeat(2, 1fr); }
+  .featured-project { grid-template-columns: 1fr; gap: 1.5rem; }
+  .fp-reverse { direction: ltr; }
+  .fp-number { font-size: 4rem; text-align: left; }
 }
 
 /* ════════════════════════════════
@@ -816,8 +992,15 @@ strong { color: var(--slate-light); font-weight: 500; }
   .section-heading { font-size: 1.4rem; }
   .section-heading::after { width: 80px; }
 
-  .about-grid { grid-template-columns: 1fr; }
-  .about-photo { display: none; }
+  .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .about-photo {
+    display: flex;
+    justify-content: center;
+  }
+  .photo-wrapper {
+    width: 200px;
+    height: 200px;
+  }
 
   .exp-tabs { flex-direction: column; gap: 0; }
   .tab-list {
@@ -838,6 +1021,10 @@ strong { color: var(--slate-light); font-weight: 500; }
   .tab-btn.active { border-bottom-color: var(--teal); border-left: none; }
 
   .projects-grid { grid-template-columns: 1fr; }
+  .featured-projects { gap: 4rem; }
+  .featured-project { grid-template-columns: 1fr; gap: 1rem; }
+  .fp-reverse { direction: ltr; }
+  .fp-number { display: none; }
   .skills-section { grid-template-columns: 1fr; gap: 2rem; }
   .cert-item { flex-wrap: wrap; }
   .cert-org { min-width: unset; }
@@ -1059,10 +1246,11 @@ strong { color: var(--slate-light); font-weight: 500; }
 
 /* Hex path draws itself */
 .loader__hex-path {
-  /* perimeter of the hexagon ≈ 330 */
   stroke-dasharray: 330;
   stroke-dashoffset: 330;
-  animation: hexDraw 0.9s cubic-bezier(0.645, 0.045, 0.355, 1) 0.2s forwards;
+  /* Paused by default — JS starts it on load so timing is consistent */
+  animation: hexDraw 1s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+  animation-play-state: paused;
 }
 @keyframes hexDraw {
   to { stroke-dashoffset: 0; }
@@ -1078,7 +1266,10 @@ strong { color: var(--slate-light); font-weight: 500; }
   color: var(--teal);
   letter-spacing: 0.08em;
   opacity: 0;
-  animation: loaderTextIn 0.4s ease 1s forwards;
+  /* Also paused — JS starts it */
+  animation: loaderTextIn 0.4s ease forwards;
+  animation-delay: 1s;
+  animation-play-state: paused;
 }
 @keyframes loaderTextIn {
   from { opacity: 0; transform: scale(0.92); }
@@ -1091,54 +1282,51 @@ strong { color: var(--slate-light); font-weight: 500; }
 }
 
 /* ════════════════════════════════════════
-   CHANGE 13 — IMPROVED FOOTER
-   v4-style: hex SVG logo (scroll-to-top),
-   monospace attribution, Brittany credit.
+   FOOTER — clean, minimal
 ════════════════════════════════════════ */
 
 .footer {
   padding: 3rem 0 4rem;
   text-align: center;
-  border-top: none;
+  border-top: 1px solid rgba(255,255,255,0.04);
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1.25rem;
 }
 
-.footer__logo {
-  display: inline-block;
-  color: var(--teal);
-  margin-bottom: 0.5rem;
-  transition: transform 0.3s var(--ease), color 0.2s ease;
+.footer__socials {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
-.footer__hex {
-  width: 42px;
-  height: 48px;
+
+.footer__social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: var(--slate-dark);
+  border-radius: 50%;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
-.footer__logo:hover {
-  transform: translateY(-4px);
+.footer__social:hover {
   color: var(--teal);
+  transform: translateY(-3px);
 }
 
 .footer__credit {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   color: var(--slate-dark);
-  line-height: 1.8;
+  letter-spacing: 0.04em;
+}
+.footer__name {
+  color: var(--teal);
   transition: color 0.2s ease;
 }
-.footer__credit:hover { color: var(--slate); }
-
-.footer__inspired {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--slate-dark);
+.footer__credit:hover .footer__name {
+  color: var(--slate);
 }
-.footer__inspired a {
-  color: var(--teal);
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s ease;
-}
-.footer__inspired a:hover { border-color: var(--teal); }
