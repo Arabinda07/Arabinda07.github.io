@@ -532,9 +532,9 @@ strong { color: var(--slate-light); font-weight: 500; }
 
 /* Mobile header photo — fully reset inherited .photo-wrapper styles */
 .photo-wrapper.photo-wrapper--circle {
-  width: 100px;
-  height: 100px;
-  max-width: 100px;
+  width: 150px;
+  height: 150px;
+  max-width: 150px;
   aspect-ratio: auto;
   border-radius: 6px;
   overflow: hidden;
