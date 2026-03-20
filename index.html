@@ -6,12 +6,38 @@
   <title>Arabinda Saha | Data Consultant</title>
   <meta name="theme-color" content="#0a192f" />
   <meta name="description" content="Arabinda Saha — Data Consultant at Lakshmikumaran & Sridharan. Mathematician. Program Strategist." />
+
+  <!-- Favicon — inline SVG hex logo -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='12' fill='%230a192f'/%3E%3Cpolygon points='50 6,89 27,89 73,50 94,11 73,11 27' fill='none' stroke='%2364ffda' stroke-width='4'/%3E%3Ctext x='50' y='58' text-anchor='middle' fill='%2364ffda' font-family='monospace' font-size='28' font-weight='600'%3EAS%3C/text%3E%3C/svg%3E" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Arabinda Saha | Data Consultant" />
+  <meta property="og:description" content="Data Consultant at Lakshmikumaran & Sridharan. Mathematician turned program operator — building systems at the intersection of data, education, and scale." />
+  <meta property="og:image" content="assets/og-image.png" />
+  <meta property="og:url" content="" />
+
+  <!-- Twitter / WhatsApp -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Arabinda Saha | Data Consultant" />
+  <meta name="twitter:description" content="Data Consultant at Lakshmikumaran & Sridharan. Building systems at the intersection of data, education, and scale." />
+  <meta name="twitter:image" content="assets/og-image.png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Calibre:wght@400;500;600&family=SF+Mono:wght@400;500&family=Fira+Code:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body class="is-loading">
+
+  <!-- ── PAGE LOADER (Brittany v4–style) ── -->
+  <div id="page-loader" class="page-loader" aria-hidden="true">
+    <svg class="loader-hex" viewBox="0 0 100 100" width="84" height="84" xmlns="http://www.w3.org/2000/svg">
+      <polygon class="loader-hex__shape" points="50 2, 93 25, 93 75, 50 98, 7 75, 7 25" fill="none" stroke="#64ffda" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+      <text class="loader-hex__text" x="50" y="58" text-anchor="middle" fill="#64ffda" font-family="'Fira Code','SF Mono',monospace" font-size="30" font-weight="500">AS</text>
+    </svg>
+  </div>
+
   <a href="#content" class="skip-link">Skip to content</a>
 
   <!-- ── SCROLL PROGRESS BAR ── -->
@@ -37,6 +63,9 @@
     </nav>
     <div class="mobile-nav-overlay" id="mobile-nav-overlay" aria-hidden="true"></div>
   </header>
+
+  <!-- ── CURSOR SPOTLIGHT ── -->
+  <div id="spotlight" class="spotlight" aria-hidden="true"></div>
 
   <!-- ── LAYOUT WRAPPER ── -->
   <div class="layout">
@@ -588,41 +617,49 @@
   <script id="emailjs-sdk" async src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
     (function () {
-      // Safety: remove any leftover loader
+      // ── Page loader — fade out after hex animation completes ──
       var loader = document.getElementById('page-loader');
-      if (loader) loader.remove();
-      document.body.classList.remove('is-loading');
+      var LOADER_DURATION = 2200;
 
-      // ── Fade-up: left panel (stagger on load via CSS --delay) ──
-      requestAnimationFrame(function () {
-        document.querySelectorAll('.left-panel .fade-up').forEach(function (el) {
-          el.classList.add('is-visible');
-        });
-      });
-
-      // ── Fade-up: right panel (IntersectionObserver) ──
-      var fadeEls = document.querySelectorAll('.right-panel .fade-up');
-      if ('IntersectionObserver' in window) {
-        var fadeObserver = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) {
-            if (e.isIntersecting) {
-              e.target.classList.add('is-visible');
-              fadeObserver.unobserve(e.target);
-            }
+      function revealPage() {
+        if (loader) {
+          loader.classList.add('loader--done');
+          loader.addEventListener('transitionend', function () {
+            loader.remove();
           });
-        }, { threshold: 0.07, rootMargin: '0px 0px -40px 0px' });
-        fadeEls.forEach(function (el) { fadeObserver.observe(el); });
-      } else {
-        fadeEls.forEach(function (el) { el.classList.add('is-visible'); });
+        }
+        document.body.classList.remove('is-loading');
+
+        requestAnimationFrame(function () {
+          document.querySelectorAll('.left-panel .fade-up').forEach(function (el) {
+            el.classList.add('is-visible');
+          });
+        });
+
+        var fadeEls = document.querySelectorAll('.right-panel .fade-up');
+        if ('IntersectionObserver' in window) {
+          var fadeObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-visible');
+                fadeObserver.unobserve(e.target);
+              }
+            });
+          }, { threshold: 0.07, rootMargin: '0px 0px -40px 0px' });
+          fadeEls.forEach(function (el) { fadeObserver.observe(el); });
+        } else {
+          fadeEls.forEach(function (el) { el.classList.add('is-visible'); });
+        }
+
+        document.querySelectorAll('.project-card.fade-up').forEach(function (card, i) {
+          card.style.setProperty('--delay', (i % 3) * 80 + 'ms');
+        });
+        document.querySelectorAll('.cert-item.fade-up').forEach(function (item, i) {
+          item.style.setProperty('--delay', i * 50 + 'ms');
+        });
       }
 
-      // Stagger delays for project cards and cert items
-      document.querySelectorAll('.project-card.fade-up').forEach(function (card, i) {
-        card.style.setProperty('--delay', (i % 3) * 80 + 'ms');
-      });
-      document.querySelectorAll('.cert-item.fade-up').forEach(function (item, i) {
-        item.style.setProperty('--delay', i * 50 + 'ms');
-      });
+      setTimeout(revealPage, LOADER_DURATION);
 
       // ── Tab switching ──
       function moveTabIndicator(btn) {
@@ -817,6 +854,15 @@
           mobileHeader.classList.toggle('scrolled', window.scrollY > 20);
         }
       });
+
+      // ── Cursor spotlight ──
+      var spot = document.getElementById('spotlight');
+      if (spot && window.matchMedia('(hover: hover) and (min-width: 769px)').matches) {
+        document.addEventListener('mousemove', function (e) {
+          spot.style.setProperty('--spot-x', e.clientX + 'px');
+          spot.style.setProperty('--spot-y', e.clientY + 'px');
+        });
+      }
     })();
   </script>
 </body>
