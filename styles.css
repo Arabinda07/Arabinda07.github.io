@@ -16,9 +16,9 @@
   --slate-dark:  #495670;
   --font-sans:   'Inter', 'Calibre', 'SF Pro Text', system-ui, sans-serif;
   --font-mono:   'Fira Code', 'SF Mono', monospace;
-  --panel-w:     340px;
+  --panel-w:     300px;
   --ease:        cubic-bezier(0.645, 0.045, 0.355, 1);
-  --transition:  all 0.25s var(--ease);
+  --transition:  all 0.18s var(--ease);
 }
 
 /* ── F: Scroll progress bar ── */
@@ -45,21 +45,6 @@ body {
   line-height: 1.3;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-}
-
-/* ── Cursor spotlight (change 7) ── */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background: radial-gradient(
-    600px circle at var(--cursor-x, -500px) var(--cursor-y, -500px),
-    rgba(100, 255, 218, 0.045),
-    transparent 80%
-  );
-  transition: background 0.1s ease;
 }
 a { color: var(--teal); text-decoration: none; transition: var(--transition); }
 a:hover { color: var(--teal); }
@@ -218,7 +203,6 @@ strong { color: var(--slate-light); font-weight: 500; }
 .nav-item a:hover .nav-num,
 .nav-item.active a .nav-num { color: var(--teal); }
 
-
 .social-icon {
   color: var(--slate);
   transition: var(--transition);
@@ -255,7 +239,6 @@ strong { color: var(--slate-light); font-weight: 500; }
 /* ── SECTIONS ── */
 .section {
   padding: 6.5rem 0;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -484,7 +467,7 @@ strong { color: var(--slate-light); font-weight: 500; }
 /* Active: teal text + tint bg — border handled by .tab-indicator */
 .tab-btn.active { color: var(--teal); background: var(--teal-tint); }
 
-/* ── Change 11: Tab panel fade transition ── */
+/* ── Tab panel fade transition ── */
 .tab-panels {
   position: relative;
   flex: 1;
@@ -517,7 +500,7 @@ strong { color: var(--slate-light); font-weight: 500; }
   transform: translateY(8px);
 }
 
-/* ── Change 9: Project link icons ── */
+/* ── Project link icons ── */
 .project-links {
   display: flex;
   align-items: center;
@@ -593,24 +576,16 @@ strong { color: var(--slate-light); font-weight: 500; }
 .featured-projects {
   display: flex;
   flex-direction: column;
-  gap: 6rem;
-  margin-bottom: 5rem;
+  gap: 3.5rem;
+  margin-bottom: 4rem;
 }
 
 .featured-project {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  align-items: center;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
   position: relative;
-}
-
-/* Reversed row: number on left, content on right */
-.fp-reverse {
-  direction: rtl; /* flip columns */
-}
-.fp-reverse > * {
-  direction: ltr; /* restore text direction inside */
+  max-width: 680px;
 }
 
 .fp-overline {
@@ -625,8 +600,8 @@ strong { color: var(--slate-light); font-weight: 500; }
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--slate-light);
-  margin-bottom: 1.25rem;
-  transition: color 0.2s ease;
+  margin-bottom: 1rem;
+  transition: color 0.18s ease;
 }
 .featured-project:hover .fp-title { color: var(--teal); }
 
@@ -635,15 +610,15 @@ strong { color: var(--slate-light); font-weight: 500; }
   border-radius: 4px;
   padding: 1.5rem 1.75rem;
   margin-bottom: 1.25rem;
-  box-shadow: 0 10px 30px rgba(2, 12, 27, 0.5);
+  border: 1px solid rgba(255,255,255,0.05);
   position: relative;
-  z-index: 2;
 }
 .fp-desc-box p {
   font-size: 0.92rem;
   color: var(--slate);
   line-height: 1.8;
 }
+.fp-desc-box p + p { margin-top: 0.5rem; }
 
 .fp-tech {
   display: flex;
@@ -654,23 +629,6 @@ strong { color: var(--slate-light); font-weight: 500; }
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--slate);
-}
-
-/* Large ghost number */
-.fp-number {
-  font-family: var(--font-mono);
-  font-size: clamp(6rem, 12vw, 10rem);
-  font-weight: 700;
-  color: transparent;
-  -webkit-text-stroke: 1px var(--navy-light);
-  line-height: 1;
-  letter-spacing: -0.05em;
-  user-select: none;
-  text-align: center;
-  transition: -webkit-text-stroke-color 0.3s ease;
-}
-.featured-project:hover .fp-number {
-  -webkit-text-stroke-color: var(--slate-dark);
 }
 
 .other-projects-heading {
@@ -718,7 +676,6 @@ strong { color: var(--slate-light); font-weight: 500; }
   align-items: center;
   margin-bottom: 0.75rem;
 }
-.project-folder svg { color: var(--teal); }
 .project-title {
   font-size: 1rem;
   font-weight: 600;
@@ -780,9 +737,7 @@ strong { color: var(--slate-light); font-weight: 500; }
   border: 1px solid var(--slate-dark);
   border-radius: 3px;
   padding: 0.3rem 0.8rem;
-  transition: var(--transition);
 }
-.skill-tags li:hover { color: var(--teal); border-color: var(--teal); background: var(--teal-tint); }
 
 /* Certs */
 .certs-section, .seminars-section {
@@ -986,8 +941,6 @@ strong { color: var(--slate-light); font-weight: 500; }
   .lp-title { font-size: 1.2rem; }
   .projects-grid { grid-template-columns: repeat(2, 1fr); }
   .featured-project { grid-template-columns: 1fr; gap: 1.5rem; }
-  .fp-reverse { direction: ltr; }
-  .fp-number { font-size: 4rem; text-align: left; }
 }
 
 /* ════════════════════════════════
@@ -1221,8 +1174,6 @@ strong { color: var(--slate-light); font-weight: 500; }
   .projects-grid { grid-template-columns: 1fr; }
   .featured-projects { gap: 2.5rem; }
   .featured-project { grid-template-columns: 1fr; gap: 1rem; }
-  .fp-reverse { direction: ltr; }
-  .fp-number { display: none; }
   .skills-section { grid-template-columns: 1fr; gap: 2rem; }
   .cert-item { flex-wrap: wrap; }
   .cert-org { min-width: unset; }
@@ -1257,88 +1208,12 @@ strong { color: var(--slate-light); font-weight: 500; }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── LEFT BAR — hidden: left panel already contains socials ── */
-.side-bar--left {
-  display: none;
-}
-.side-bar__icons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  list-style: none;
-  padding: 0;
-  margin: 0 0 1.5rem 0;
-}
-.side-bar__icons a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--slate);
-  text-decoration: none;
-  padding: 6px;
-  transition: color 0.2s ease, transform 0.2s ease;
-}
-.side-bar__icons a:hover {
-  color: var(--teal);
-  transform: translateY(-4px);
-}
-
-/* Line below icons */
-.side-bar--left::after {
-  content: '';
-  display: block;
-  width: 1px;
-  height: 90px;
-  background: var(--slate);
-  opacity: 0.5;
-  flex-shrink: 0;
-}
-
-/* ── RIGHT BAR — rotated email ── */
-.side-bar--right {
-  right: 40px;
-  align-items: center;
-}
-.side-bar__email {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
-  color: var(--slate);
-  text-decoration: none;
-  writing-mode: vertical-rl;
-  /* keeps text readable top-to-bottom */
-  transform: rotate(0deg);
-  margin-bottom: 1.5rem;
-  transition: color 0.2s ease, transform 0.2s ease;
-}
-.side-bar__email:hover {
-  color: var(--teal);
-  transform: translateY(-4px);
-}
-
-/* Line below email */
-.side-bar--right::after {
-  content: '';
-  display: block;
-  width: 1px;
-  height: 90px;
-  background: var(--slate);
-  opacity: 0.5;
-  flex-shrink: 0;
-}
-
 /* ── Hide side bars on smaller screens ── */
 @media (max-width: 1080px) {
   .side-bar { display: none; }
 }
 
-/* ════════════════════════════════════════
-   CHANGE 4 — STAGGERED ENTRANCE ANIMATIONS
-   Mirrors bchiang7/v4's sequential reveal:
-   each element slides up + fades in with
-   its own --delay custom property.
-════════════════════════════════════════ */
+/* ── Entrance animations ── */
 
 /* Base state: invisible, shifted down */
 .anim-slide {
@@ -1346,7 +1221,7 @@ strong { color: var(--slate-light); font-weight: 500; }
   transform: translateY(24px);
   animation: animSlideUp 0.55s cubic-bezier(0.645, 0.045, 0.355, 1) both;
   animation-delay: var(--delay, 0ms);
-  animation-play-state: paused; /* JS unpauses on load */
+  animation-play-state: running;
 }
 
 @keyframes animSlideUp {
@@ -1407,83 +1282,6 @@ strong { color: var(--slate-light); font-weight: 500; }
 }
 
 /* ════════════════════════════════════════
-   CHANGE 1 — PAGE LOADER
-   Fullscreen navy overlay, hex draws itself
-   via stroke-dasharray, "AS" fades in,
-   then the whole loader fades out.
-════════════════════════════════════════ */
-
-.loader {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: var(--navy);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.5s cubic-bezier(0.645, 0.045, 0.355, 1),
-              visibility 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
-}
-.loader--fade {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.loader__inner {
-  position: relative;
-  width: 100px;
-  height: 115px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* The hexagon SVG */
-.loader__hex {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* Hex path draws itself */
-.loader__hex-path {
-  stroke-dasharray: 330;
-  stroke-dashoffset: 330;
-  /* Paused by default — JS starts it on load so timing is consistent */
-  animation: hexDraw 1s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
-  animation-play-state: paused;
-}
-@keyframes hexDraw {
-  to { stroke-dashoffset: 0; }
-}
-
-/* "AS" text fades in after hex is drawn */
-.loader__text {
-  position: relative;
-  z-index: 1;
-  font-family: var(--font-mono);
-  font-size: 1.4rem;
-  font-weight: 500;
-  color: var(--teal);
-  letter-spacing: 0.08em;
-  opacity: 0;
-  /* Also paused — JS starts it */
-  animation: loaderTextIn 0.4s ease forwards;
-  animation-delay: 1s;
-  animation-play-state: paused;
-}
-@keyframes loaderTextIn {
-  from { opacity: 0; transform: scale(0.92); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-/* Reduce-motion: skip loader entirely */
-@media (prefers-reduced-motion: reduce) {
-  .loader { display: none; }
-}
-
-/* ════════════════════════════════════════
    FOOTER — clean, minimal
 ════════════════════════════════════════ */
 
@@ -1532,3 +1330,105 @@ strong { color: var(--slate-light); font-weight: 500; }
 .footer__credit:hover .footer__name {
   color: var(--slate);
 }
+
+/* ── Content update additions ── */
+.hero-stats {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--teal);
+  letter-spacing: 0.06em;
+  margin-bottom: 1.5rem;
+  margin-top: -0.5rem;
+}
+.exp-note {
+  font-size: 0.875rem;
+  color: var(--teal);
+  font-style: italic;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--navy-light);
+}
+.fp-note {
+  font-size: 0.85rem;
+  color: var(--teal);
+  font-style: italic;
+  margin-top: 0.75rem;
+}
+.fp-desc-box p + p {
+  margin-top: 0.6rem;
+}
+
+/* ════════════════════════════════════════
+   CONTENT UPDATE ADDITIONS
+════════════════════════════════════════ */
+
+/* Left panel metrics block */
+.lp-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--slate);
+  margin-bottom: 1.75rem;
+}
+.lp-metrics span {
+  color: var(--teal);
+}
+
+/* Journey flow — about section */
+.journey-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  margin: 1rem 0 1.25rem;
+}
+.journey-flow span {
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--slate-dark);
+  border-radius: 4px;
+  color: var(--slate);
+}
+.journey-flow span:nth-child(2n) {
+  border: none;
+  padding: 0;
+  color: var(--teal);
+  background: none;
+}
+
+/* System flow — work section */
+.system-flow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  margin-bottom: 1rem;
+}
+.system-flow span:nth-child(odd) {
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--slate-dark);
+  border-radius: 3px;
+  color: var(--slate);
+}
+.system-flow span:nth-child(even) {
+  color: var(--teal);
+  padding: 0;
+}
+
+/* Project CTA */
+.project-cta {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--teal);
+  margin-top: 0.75rem;
+  transition: letter-spacing 0.18s ease;
+}
+.project-card:hover .project-cta {
+  letter-spacing: 0.04em;
+}
+
+/* Loader CSS kept but hidden — HTML element removed */
