@@ -14,14 +14,14 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Arabinda Saha | Data Consultant" />
   <meta property="og:description" content="Data Consultant at Lakshmikumaran & Sridharan. Mathematician turned program operator — building systems at the intersection of data, education, and scale." />
-  <meta property="og:image" content="assets/og-image.png" />
-  <meta property="og:url" content="" />
+  <meta property="og:image" content="https://i.postimg.cc/nrLNWDZX/Untitled-design.png" />
+  <meta property="og:url" content="https://arabinda07.github.io/" />
 
   <!-- Twitter / WhatsApp -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Arabinda Saha | Data Consultant" />
   <meta name="twitter:description" content="Data Consultant at Lakshmikumaran & Sridharan. Building systems at the intersection of data, education, and scale." />
-  <meta name="twitter:image" content="assets/og-image.png" />
+  <meta name="twitter:image" content="https://i.postimg.cc/nrLNWDZX/Untitled-design.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -193,7 +193,7 @@
         <!-- Mobile photo — sits above heading on mobile, hidden on desktop -->
         <div class="about-photo-mobile">
           <div class="photo-wrapper photo-wrapper--circle">
-            <img src="https://i.postimg.cc/nrLNWDZX/Untitled-design.png" alt="Arabinda Saha" class="photo-img" width="200" height="200" loading="lazy" decoding="async" />
+            <img src="https://i.postimg.cc/nrLNWDZX/Untitled-design.png" alt="Arabinda Saha" class="photo-img" width="280" height="280" loading="lazy" decoding="async" />
           </div>
         </div>
 
@@ -848,22 +848,23 @@
         }
       }
 
-      // ── Mobile header scroll state ──
+      // ── Mobile header scroll shadow ──
       window.addEventListener('scroll', function () {
         if (mobileHeader) {
           mobileHeader.classList.toggle('scrolled', window.scrollY > 20);
         }
-      });
+      }, { passive: true });
 
-      // ── Cursor spotlight ──
+      // ── Cursor spotlight (desktop / pointer devices only) ──
       var spot = document.getElementById('spotlight');
       if (spot && window.matchMedia('(hover: hover) and (min-width: 769px)').matches) {
         document.addEventListener('mousemove', function (e) {
           spot.style.setProperty('--spot-x', e.clientX + 'px');
           spot.style.setProperty('--spot-y', e.clientY + 'px');
-        });
+        }, { passive: true });
       }
-    })();
+
+    }());
   </script>
 </body>
 </html>
