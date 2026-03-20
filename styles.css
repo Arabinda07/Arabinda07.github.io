@@ -1305,12 +1305,14 @@ strong { color: var(--slate-light); font-weight: 500; }
 
 /* ── Content update additions ── */
 .hero-stats {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--teal);
-  letter-spacing: 0.06em;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 0;
   margin-bottom: 1.5rem;
-  margin-top: -0.5rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--slate-dark);
+  border-bottom: 1px solid var(--slate-dark);
+  max-width: 320px;
 }
 .exp-note {
   font-size: 0.875rem;
@@ -1335,17 +1337,41 @@ strong { color: var(--slate-light); font-weight: 500; }
 ════════════════════════════════════════ */
 
 /* Left panel metrics block */
+/* Left panel metrics — 3-column, large number + label */
 .lp-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-bottom: 1.75rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--slate-dark);
+  border-bottom: 1px solid var(--slate-dark);
+}
+.lp-metric {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--slate);
-  margin-bottom: 1.75rem;
+  gap: 0.2rem;
+  padding-right: 0.5rem;
 }
-.lp-metrics span {
+.lp-metric:not(:last-child) {
+  border-right: 1px solid var(--slate-dark);
+  margin-right: 0.75rem;
+}
+.lp-metric__num {
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  font-weight: 500;
   color: var(--teal);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.lp-metric__label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--slate-dark);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1;
 }
 
 /* Journey flow — about section */
