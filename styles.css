@@ -434,9 +434,59 @@ strong { color: var(--slate-light); font-weight: 500; }
   margin-left: 0.5rem;
   transition: var(--transition);
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 .lp-resume-btn:hover {
   background: var(--teal-tint);
+}
+
+/* ── Animated download chevron — used on all resume buttons ── */
+.btn-chevron {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 14px;
+  position: relative;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+.btn-chevron::before,
+.btn-chevron::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateX(-50%) rotate(45deg);
+  border-radius: 0 0 1px 0;
+}
+.btn-chevron::before { top: 0; }
+.btn-chevron::after  { top: 5px; opacity: 0.45; }
+
+/* Bounce animation — triggers when parent is hovered */
+@keyframes chevronBounce {
+  0%   { transform: translateX(-50%) translateY(0)   rotate(45deg); }
+  45%  { transform: translateX(-50%) translateY(3px)  rotate(45deg); }
+  100% { transform: translateX(-50%) translateY(0)   rotate(45deg); }
+}
+.btn-resume:hover .btn-chevron::before,
+.btn-resume:hover .btn-chevron::after,
+.lp-resume-btn:hover .btn-chevron::before,
+.lp-resume-btn:hover .btn-chevron::after,
+.btn-primary:hover .btn-chevron::before,
+.btn-primary:hover .btn-chevron::after {
+  animation: chevronBounce 0.7s var(--ease) infinite;
+}
+.btn-resume:hover .btn-chevron::after,
+.lp-resume-btn:hover .btn-chevron::after,
+.btn-primary:hover .btn-chevron::after {
+  animation-delay: 0.12s;
 }
 
 /* ── RIGHT PANEL ── */
@@ -1249,7 +1299,9 @@ strong { color: var(--slate-light); font-weight: 500; }
 
 /* ── BUTTONS ── */
 .btn-primary {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   font-family: var(--font-mono);
   font-size: 0.85rem;
   color: var(--teal);
@@ -1468,6 +1520,9 @@ strong { color: var(--slate-light); font-weight: 500; }
     color: var(--teal);
   }
   .btn-resume {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     font-family: var(--font-mono);
     font-size: 0.8rem;
     color: var(--teal);
